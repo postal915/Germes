@@ -2,3 +2,6 @@
 /.idea/
 /target/
 /*.iml
+/germes-presentation/germes-presentation.iml
+/germes-persistence/germes-persistence.iml
+/germes-model/germes-model.iml
