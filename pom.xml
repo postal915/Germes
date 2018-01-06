@@ -6,7 +6,7 @@
 
     <groupId>com.github.postal915</groupId>
     <artifactId>germes</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.3</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -25,6 +25,7 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
