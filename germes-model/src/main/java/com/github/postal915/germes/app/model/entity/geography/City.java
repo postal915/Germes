@@ -4,6 +4,7 @@ import com.github.postal915.germes.app.infra.util.CommonUtil;
 import com.github.postal915.germes.app.model.entity.base.AbstractEntity;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -68,9 +69,23 @@ public class City extends AbstractEntity {
      * @param station
      */
     public void addStation(final Station station) {
+        Objects.requireNonNull(station, "station parameter is not initialized");
         if (stations == null) {
             stations = new HashSet<>();
         }
         stations.add(station);
+        station.setCity(this);
+    }
+
+    /**
+     * Removes specified station from city station list
+     * @param station
+     */
+    public void removeStation(Station station) {
+        Objects.requireNonNull(station, "station parameter is not initialized");
+        if (stations == null) {
+            return;
+        }
+        stations.remove(station);
     }
 }
