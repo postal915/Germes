@@ -1,5 +1,6 @@
 package com.github.postal915.germes.app.model.entity.geography;
 
+import com.github.postal915.germes.app.infra.util.CommonUtil;
 import com.github.postal915.germes.app.model.entity.base.AbstractEntity;
 
 import java.util.HashSet;
@@ -54,7 +55,7 @@ public class City extends AbstractEntity {
     }
 
     public Set<Station> getStations() {
-        return stations;
+        return CommonUtil.getSafeSet(stations);
     }
 
     public void setStations(Set<Station> stations) {
