@@ -37,7 +37,7 @@ public class CityTest {
     }
 
     @Test
-    public void testAddDublicateStationFailure() {
+    public void testAddDuplicateStationFailure() {
         Station station = new Station();
 
         city.addStation(station);
