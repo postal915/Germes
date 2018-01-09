@@ -2,6 +2,7 @@ package com.github.postal915.germes.app.model.entity.geography;
 
 import com.github.postal915.germes.app.infra.util.CommonUtil;
 import com.github.postal915.germes.app.model.entity.base.AbstractEntity;
+import com.github.postal915.germes.app.model.entity.transport.TransportType;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -30,6 +31,10 @@ public class City extends AbstractEntity {
      * Set of transport stations that is linked to this loyalty
      */
     private Set<Station> stations;
+
+    public City(final String name) {
+        this.name = name;
+    }
 
     public String getName() {
         return name;
@@ -66,19 +71,20 @@ public class City extends AbstractEntity {
     /**
      * Adds specified station to the city station list
      *
-     * @param station
+     * @param transportType
      */
-    public void addStation(final Station station) {
-        Objects.requireNonNull(station, "station parameter is not initialized");
+    public Station addStation(final TransportType transportType) {
         if (stations == null) {
             stations = new HashSet<>();
         }
+        Station station = new Station(this, transportType);
         stations.add(station);
-        station.setCity(this);
+        return station;
     }
 
     /**
      * Removes specified station from city station list
+     *
      * @param station
      */
     public void removeStation(Station station) {
