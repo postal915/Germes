@@ -1,0 +1,18 @@
+package com.github.postal915.germes.app.infra.exception.base;
+
+/**
+ * Base class for zll application specific exception
+ */
+
+public abstract class AppException extends RuntimeException {
+
+    private static final long serialVersionUID = 7837501112802868980L;
+
+    public AppException(String message, Throwable couse) {
+        super(message, couse);
+    }
+
+    public AppException(String message) {
+        super(message);
+    }
+}
