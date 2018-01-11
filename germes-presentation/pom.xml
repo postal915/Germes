@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
+        <groupId>com.github.postal915</groupId>
         <artifactId>germes</artifactId>
-        <groupId>org.it-simulator</groupId>
-        <version>0.0.3</version>
+        <version>0.0.5</version>
     </parent>
 
     <artifactId>germes-presentation</artifactId>
