@@ -6,7 +6,7 @@
 
     <groupId>com.github.postal915</groupId>
     <artifactId>germes</artifactId>
-    <version>0.0.6</version>
+    <version>0.0.8</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -45,6 +45,15 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-eclipse-plugin</artifactId>
+                <version>2.10</version>
+                <configuration>
+                    <downloadSources>true</downloadSources>
+                    <downloadJavadocs>true</downloadJavadocs>
                 </configuration>
             </plugin>
         </plugins>
