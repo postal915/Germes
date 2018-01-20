@@ -19,6 +19,10 @@ public class ReflectionUtil {
     /**
      * Creates an instance of the specified class. This method throws unchecked
      * exception of creation fails
+     *
+     * @param clz
+     * @return
+     * @throws ConfigurationException
      */
     public static <T> T createInstance(Class<T> clz)
             throws ConfigurationException {
