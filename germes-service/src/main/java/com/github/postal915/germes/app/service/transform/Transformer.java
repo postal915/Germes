@@ -25,6 +25,6 @@ public interface Transformer {
      * @param clz
      * @return
      */
-    <T extends AbstractEntity, P extends BaseDTO<T>> T untransform(P dto, Class<T> clz);
+    <T extends AbstractEntity, P extends BaseDTO<T>> T unTransform(P dto, Class<T> clz);
 
 }

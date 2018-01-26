@@ -27,7 +27,7 @@ public abstract class BaseDTO<T extends AbstractEntity> {
      * Should be overridden in the derived classes if additional transformation
      * logic DTO -> domain model is needed
      */
-    public T untransform(T t) {
+    public T unTransform(T t) {
         t.setId(getId());
         return t;
     }
