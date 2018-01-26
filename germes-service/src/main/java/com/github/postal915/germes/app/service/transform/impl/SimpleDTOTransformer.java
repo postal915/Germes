@@ -5,11 +5,17 @@ import com.github.postal915.germes.app.infra.util.ReflectionUtil;
 import com.github.postal915.germes.app.model.entity.base.AbstractEntity;
 import com.github.postal915.germes.app.rest.dto.base.BaseDTO;
 import com.github.postal915.germes.app.service.transform.Transformer;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Default transformation engine that uses refection to transform objects
  */
 public class SimpleDTOTransformer implements Transformer {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SimpleDTOTransformer.class);
 
     @Override
     public <T extends AbstractEntity, P extends BaseDTO<T>> P transform(
@@ -21,6 +27,11 @@ public class SimpleDTOTransformer implements Transformer {
         ReflectionUtil.copyFields(entity, dto,
                 ReflectionUtil.findSimilarFields(entity.getClass(), clz));
         dto.transform(entity);
+
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("\"SimpleDTOTransformer.transform: {} DTO object",
+                    ReflectionToStringBuilder.toString(dto, ToStringStyle.SHORT_PREFIX_STYLE));
+        }
 
         return dto;
     }
@@ -44,6 +55,11 @@ public class SimpleDTOTransformer implements Transformer {
         ReflectionUtil.copyFields(dto, entity,
                 ReflectionUtil.findSimilarFields(dto.getClass(), clz));
         dto.unTransform(entity);
+
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("SimpleDTOTransformer.transform: {} entity",
+                    ReflectionToStringBuilder.toString(entity, ToStringStyle.SHORT_PREFIX_STYLE));
+        }
 
         return entity;
     }
