@@ -73,6 +73,7 @@ public class Station extends AbstractEntity {
 
     /**
      * Verifies if current station specified criteria
+     *
      * @param criteria
      * @return
      */
