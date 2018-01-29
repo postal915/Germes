@@ -9,7 +9,7 @@
         </Console>
     </Appenders>
     <Loggers>
-        <logger name="org.itsimulator.germes" level="WARN">
+        <logger name="com.github.postal915" level="DEBUG">
             <AppenderRef ref="fileLog" />
         </logger>
         <Root level="ERROR">
