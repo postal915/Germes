@@ -6,11 +6,9 @@ import com.github.postal915.germes.app.model.entity.geography.Station;
 import com.github.postal915.germes.app.model.search.criteria.StationCriteria;
 import com.github.postal915.germes.app.model.search.criteria.range.RangeCriteria;
 import com.github.postal915.germes.app.service.GeographicService;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Default implementation of the {@link GeographicService}
@@ -28,6 +26,8 @@ public class GeographicServiceImpl implements GeographicService {
      */
     private int counter = 0;
 
+    private int stationCounter = 0;
+
     public GeographicServiceImpl() {
         cities = new ArrayList<City>();
     }
@@ -43,6 +43,11 @@ public class GeographicServiceImpl implements GeographicService {
             city.setId(++counter);
             cities.add(city);
         }
+        city.getStations().forEach(station -> {
+            if (station.getId() == 0) {
+                station.setId(++stationCounter);
+            }
+        });
     }
 
     @Override
@@ -52,22 +57,12 @@ public class GeographicServiceImpl implements GeographicService {
 
     @Override
     public List<Station> searchStations(final StationCriteria criteria, final RangeCriteria rangeCriteria) {
-        Stream<City> stream = cities.stream().filter(
-                city -> StringUtils.isEmpty(criteria.getName()) || city.getName().equals(criteria.getName()));
+        Set<Station> stations = new HashSet<>();
 
-        Optional<Set<Station>> stations = stream.map(city -> city.getStations()).reduce((stations1, stations2) -> {
-            Set<Station> newStations = new HashSet<>(stations2);
-            newStations.addAll(stations1);
-            return newStations;
-        });
-
-        if (!stations.isPresent()) {
-            return Collections.emptyList();
+        for (City city : cities) {
+            stations.addAll(city.getStations());
         }
 
-        return stations.get()
-                .stream()
-                .filter(station -> criteria.getTransportType() == null ||
-                        station.getTransportType() == criteria.getTransportType()).collect(Collectors.toList());
+        return stations.stream().filter(station -> station.match(criteria)).collect(Collectors.toList());
     }
 }
