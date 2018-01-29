@@ -1,12 +1,11 @@
 package com.github.postal915.germes.app.service.transform.impl;
 
 import com.github.postal915.germes.app.infra.util.Checks;
+import com.github.postal915.germes.app.infra.util.CommonUtil;
 import com.github.postal915.germes.app.infra.util.ReflectionUtil;
 import com.github.postal915.germes.app.model.entity.base.AbstractEntity;
 import com.github.postal915.germes.app.rest.dto.base.BaseDTO;
 import com.github.postal915.germes.app.service.transform.Transformer;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,8 +28,8 @@ public class SimpleDTOTransformer implements Transformer {
         dto.transform(entity);
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("\"SimpleDTOTransformer.transform: {} DTO object",
-                    ReflectionToStringBuilder.toString(dto, ToStringStyle.SHORT_PREFIX_STYLE));
+            LOGGER.debug("SimpleDTOTransformer.transform: {} DTO object",
+                    CommonUtil.toString(dto));
         }
 
         return dto;
@@ -58,7 +57,7 @@ public class SimpleDTOTransformer implements Transformer {
 
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("SimpleDTOTransformer.transform: {} entity",
-                    ReflectionToStringBuilder.toString(entity, ToStringStyle.SHORT_PREFIX_STYLE));
+                    CommonUtil.toString(dto));
         }
 
         return entity;
