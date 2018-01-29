@@ -1,11 +1,16 @@
 package com.github.postal915.germes.app.service.impl;
 
 import com.github.postal915.germes.app.model.entity.geography.City;
+import com.github.postal915.germes.app.model.entity.geography.Station;
+import com.github.postal915.germes.app.model.entity.transport.TransportType;
+import com.github.postal915.germes.app.model.search.criteria.StationCriteria;
+import com.github.postal915.germes.app.model.search.criteria.range.RangeCriteria;
 import com.github.postal915.germes.app.service.GeographicService;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 
@@ -14,6 +19,8 @@ import static org.junit.Assert.*;
  */
 
 public class GeographicServiceImplTest {
+
+    private static final int DEFAULT_CITY_ID = 1;
 
     private GeographicService service;
 
@@ -38,5 +45,82 @@ public class GeographicServiceImplTest {
 
         assertEquals(cities.size(), 1);
         assertEquals(cities.get(0).getName(), "Odessa");
+    }
+
+    @Test
+    public void testFindCityByIdSuccess() {
+        City city = new City("Odessa");
+        service.saveCity(city);
+
+        Optional<City> foundCity = service.findCityById(DEFAULT_CITY_ID);
+        assertTrue(foundCity.isPresent());
+        assertEquals(foundCity.get().getId(), DEFAULT_CITY_ID);
+    }
+
+    @Test
+    public void testFindCityByIdNotFound() {
+        Optional<City> foundCity = service.findCityById(DEFAULT_CITY_ID);
+        assertFalse(foundCity.isPresent());
+    }
+
+    @Test
+    public void testSearchStationsByNameSuccess() {
+        City city = new City("Odessa");
+        city.setId(DEFAULT_CITY_ID);
+        city.addStation(TransportType.AUTO);
+        city.addStation(TransportType.RAILWAY);
+        service.saveCity(city);
+
+        List<Station> stations = service.searchStations(StationCriteria.byName("Odessa"),
+                new RangeCriteria(1, 5));
+
+        assertNotNull(stations);
+        assertEquals(stations.size(), 2);
+        assertEquals(stations.get(0).getCity(), city);
+    }
+
+    @Test
+    public void testSearchStationsByNameNotFound() {
+        List<Station> stations = service.searchStations(StationCriteria.byName("Odessa"),
+                new RangeCriteria(1, 5));
+
+        assertNotNull(stations);
+        assertTrue(stations.isEmpty());
+    }
+
+    @Test
+    public void testSearchStationsByTransportTypeSuccess() {
+        City city = new City("Odessa");
+        city.addStation(TransportType.AUTO);
+        service.saveCity(city);
+
+        City city2 = new City("Kiev");
+        city2.setId(2);
+        city2.addStation(TransportType.AUTO);
+        service.saveCity(city2);
+
+        List<Station> stations = service.searchStations(new StationCriteria(TransportType.AUTO),
+                new RangeCriteria(1, 5));
+
+        assertNotNull(stations);
+        assertEquals(stations.size(), 2);
+    }
+
+    @Test
+    public void testSearchStationsByTransportTypeNotFound() {
+        City city = new City("Odessa");
+        city.addStation(TransportType.AUTO);
+        service.saveCity(city);
+
+        City city2 = new City("Kiev");
+        city2.setId(2);
+        city2.addStation(TransportType.RAILWAY);
+        service.saveCity(city2);
+
+        List<Station> stations = service.searchStations(new StationCriteria(TransportType.AVIA),
+                new RangeCriteria(1, 5));
+
+        assertNotNull(stations);
+        assertTrue(stations.isEmpty());
     }
 }
