@@ -74,8 +74,8 @@ public class Station extends AbstractEntity {
         final int prime = 31;
         int result = super.hashCode();
         result = prime * result + ((address == null) ? 0 : address.hashCode());
-        result = prime * result + ((city == null) ? 0 : address.hashCode());
-        result = prime * result + ((transportType == null) ? 0 : address.hashCode());
+        result = prime * result + ((city == null) ? 0 : city.hashCode());
+        result = prime * result + ((transportType == null) ? 0 : transportType.hashCode());
 
         return result;
     }
