@@ -2,6 +2,8 @@ package com.github.postal915.germes.app.model.entity.geography;
 
 import com.github.postal915.germes.app.model.entity.base.AbstractEntity;
 import com.github.postal915.germes.app.model.entity.transport.TransportType;
+import com.github.postal915.germes.app.model.search.criteria.StationCriteria;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Objects;
 
@@ -67,6 +69,29 @@ public class Station extends AbstractEntity {
 
     public TransportType getTransportType() {
         return transportType;
+    }
+
+    /**
+     * Verifies if current station specified criteria
+     * @param criteria
+     * @return
+     */
+    public boolean match(final StationCriteria criteria) {
+        Objects.requireNonNull(criteria, "Station criteria is not initialized");
+
+        if (!StringUtils.isEmpty(criteria.getName())) {
+            if (!city.getName().equals(criteria.getName())) {
+                return false;
+            }
+        }
+
+        if (criteria.getTransportType() != null) {
+            if (transportType != criteria.getTransportType()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     @Override
