@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.github.postal915</groupId>
         <artifactId>germes</artifactId>
-        <version>0.2.1</version>
+        <version>0.2.2</version>
     </parent>
 
     <artifactId>germes-service</artifactId>
@@ -64,14 +64,14 @@
         </dependency>
         <dependency>
             <groupId>org.powermock</groupId>
-            <artifactId>powermock-module-junit4</artifactId>
+            <artifactId>powermock-api-mockito</artifactId>
             <version>${powermock.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.powermock</groupId>
-            <artifactId>powermock-api-mockito</artifactId>
-            <version>${powermock.version}</version>
+            <groupId>org.jmockit</groupId>
+            <artifactId>jmockit</artifactId>
+            <version>${jmockit.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
