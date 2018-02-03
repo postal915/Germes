@@ -18,3 +18,5 @@
 /gradle/wrapper/
 /gradle/
 /service.log
+/germes-model/build/
+/germes-service/build/
