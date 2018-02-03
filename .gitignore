@@ -11,3 +11,8 @@
 /germes-service/germes-service.iml
 /germes-service/target/
 /germes-service/service.log
+/gradle/wrapper/gradle-wrapper.properties
+/gradle/wrapper/gradle-wrapper.jar
+/.gradle/
+/germes-presentation/build/
+/gradle/wrapper/
