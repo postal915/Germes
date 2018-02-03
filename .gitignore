@@ -20,3 +20,6 @@
 /service.log
 /germes-model/build/
 /germes-service/build/
+/germes-model/out/
+/germes-service/out/
+/germes-persistence/out/
