@@ -5,11 +5,10 @@ import com.github.postal915.germes.app.model.entity.transport.TransportType;
 import com.github.postal915.germes.app.rest.dto.CityDTO;
 import com.github.postal915.germes.app.rest.service.base.BaseResource;
 import com.github.postal915.germes.app.service.GeographicService;
-import com.github.postal915.germes.app.service.impl.GeographicServiceImpl;
 import com.github.postal915.germes.app.service.transform.Transformer;
-import com.github.postal915.germes.app.service.transform.impl.SimpleDTOTransformer;
 import org.apache.commons.lang3.math.NumberUtils;
 
+import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -17,10 +16,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Path("cities")
+
 /**
  * {@link CityResource} is REST web-service that handles city-related requests
  */
+@Path("cities")
 public class CityResource extends BaseResource {
 
     /**
@@ -33,9 +33,10 @@ public class CityResource extends BaseResource {
      */
     private final Transformer transformer;
 
-    public CityResource() {
-        transformer = new SimpleDTOTransformer();
-        service = new GeographicServiceImpl();
+    @Inject
+    public CityResource(GeographicService service, Transformer transformer) {
+        this.transformer = transformer;
+        this.service = service;
         City city = new City("Odessa");
         city.addStation(TransportType.AUTO);
         service.saveCity(city);
