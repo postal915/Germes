@@ -5,6 +5,7 @@ import com.github.postal915.germes.app.model.entity.geography.Station;
 import com.github.postal915.germes.app.model.entity.transport.TransportType;
 import com.github.postal915.germes.app.model.search.criteria.StationCriteria;
 import com.github.postal915.germes.app.model.search.criteria.range.RangeCriteria;
+import com.github.postal915.germes.app.persistence.repository.inmemory.InMemoryCityRepository;
 import com.github.postal915.germes.app.service.GeographicService;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +27,7 @@ public class GeographicServiceImplTest {
 
     @Before
     public void setup() {
-        service = new GeographicServiceImpl();
+        service = new GeographicServiceImpl(new InMemoryCityRepository());
     }
 
     @Test
