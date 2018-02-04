@@ -4,6 +4,8 @@ import com.github.postal915.germes.app.infra.util.CommonUtil;
 import com.github.postal915.germes.app.model.entity.base.AbstractEntity;
 import com.github.postal915.germes.app.model.entity.transport.TransportType;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -11,7 +13,8 @@ import java.util.Set;
 /**
  * Any locality that contains transport stations
  */
-
+@Table(name = "CITY")
+@Entity
 public class City extends AbstractEntity {
 
     private String name;

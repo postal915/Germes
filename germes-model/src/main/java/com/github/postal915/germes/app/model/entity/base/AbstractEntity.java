@@ -2,12 +2,13 @@ package com.github.postal915.germes.app.model.entity.base;
 
 import com.github.postal915.germes.app.model.entity.person.Account;
 
+import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
 /**
  * Base class for all business entities
  */
-
+@MappedSuperclass
 public abstract class AbstractEntity {
 
     /**

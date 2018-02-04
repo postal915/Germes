@@ -5,13 +5,16 @@ import com.github.postal915.germes.app.model.entity.transport.TransportType;
 import com.github.postal915.germes.app.model.search.criteria.StationCriteria;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Objects;
 
 /**
  * Station where passengers can get off or take specific kind
  * of transport. Multiple stations compose route of the trip.
  */
-
+@Table(name = "STATION")
+@Entity
 public class Station extends AbstractEntity {
 
     private City city;
