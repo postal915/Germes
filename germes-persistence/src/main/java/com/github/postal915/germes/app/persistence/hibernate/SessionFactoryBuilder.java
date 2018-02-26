@@ -5,6 +5,7 @@ import com.github.postal915.germes.app.model.entity.geography.City;
 import com.github.postal915.germes.app.model.entity.geography.Coordinate;
 import com.github.postal915.germes.app.model.entity.geography.Station;
 import com.github.postal915.germes.app.model.entity.person.Account;
+import com.github.postal915.germes.app.persistence.hibernate.interceptor.TimestampInterceptor;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -35,7 +36,10 @@ public class SessionFactoryBuilder {
         sources.addAnnotatedClass(Address.class);
         sources.addAnnotatedClass(Account.class);
 
-        sessionFactory = sources.buildMetadata().buildSessionFactory();
+        org.hibernate.boot.SessionFactoryBuilder builder = sources.getMetadataBuilder().build().
+                getSessionFactoryBuilder().applyInterceptor(new TimestampInterceptor());
+
+        sessionFactory = builder.build();
     }
 
     private Properties loadProperties() {
