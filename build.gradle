@@ -3,7 +3,7 @@ allprojects {
     apply plugin: 'eclipse'
 
     group = 'com.github.postal915'
-    version = '0.3.5'
+    version = '0.3.6'
 }
 
 subprojects {

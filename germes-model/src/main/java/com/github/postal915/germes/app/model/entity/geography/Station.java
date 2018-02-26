@@ -70,6 +70,14 @@ public class Station extends AbstractEntity {
         return coordinate;
     }
 
+    public void setCity(City city) {
+        this.city = city;
+    }
+
+    public void setTransportType(TransportType transportType) {
+        this.transportType = transportType;
+    }
+
     public void setCoordinate(Coordinate coordinate) {
         this.coordinate = coordinate;
     }

@@ -2,7 +2,15 @@ package com.github.postal915.germes.app.model.entity.base;
 
 import com.github.postal915.germes.app.model.entity.person.Account;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
 import java.time.LocalDateTime;
 
 /**
@@ -76,13 +84,20 @@ public abstract class AbstractEntity {
     }
 
     @OneToOne(fetch = FetchType.LAZY, cascade = {})
-    @JoinColumn(name = "MODIFIED_BY")
+    @JoinColumn(name = "MODIFIED_BY", insertable = false)
     public Account getModifiedBy() {
         return modifiedBy;
     }
 
     public void setModifiedBy(Account modifiedBy) {
         this.modifiedBy = modifiedBy;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        if (getId() == 0) {
+            setCreatedAt(LocalDateTime.now());
+        }
     }
 
     @Override
