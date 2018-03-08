@@ -39,9 +39,12 @@ public class CityResource extends BaseResource {
         this.service = service;
         City city = new City("Odessa");
         city.addStation(TransportType.AUTO);
+        System.out.println("city = [" + city.getStations().toString());
         city.setDistrict("Odessa");
         city.setRegion("Odessa");
         service.saveCity(city);
+
+
     }
 
     /**

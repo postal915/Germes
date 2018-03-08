@@ -16,6 +16,8 @@ import java.util.Set;
 @Entity
 public class City extends AbstractEntity {
 
+    public static final String FIELD_NAME = "name";
+
     private String name;
 
     /**
@@ -83,11 +85,19 @@ public class City extends AbstractEntity {
      * @param transportType
      */
     public Station addStation(final TransportType transportType) {
+        System.out.println("transportType = [" + transportType + "]");
         if (stations == null) {
             stations = new HashSet<>();
         }
         Station station = new Station(this, transportType);
+
         stations.add(station);
+
+        for (Station station1: stations) {
+            System.out.println("getTransportType3 " +station.getTransportType());
+
+        }
+
         return station;
     }
 

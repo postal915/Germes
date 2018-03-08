@@ -16,6 +16,10 @@ import java.util.Objects;
 @Entity
 public class Station extends AbstractEntity {
 
+    public static final String FIELD_TRANSPORT_TYPE = "transportType";
+
+    public static final String FIELD_CITY = "city";
+
     private City city;
 
     private Address address;
@@ -28,6 +32,9 @@ public class Station extends AbstractEntity {
     private Coordinate coordinate;
 
     private TransportType transportType;
+
+    public Station() {
+    }
 
     /**
      * You shouldn't create station object directly.

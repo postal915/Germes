@@ -6,6 +6,7 @@ import com.github.postal915.germes.app.model.entity.geography.Station;
 import com.github.postal915.germes.app.model.search.criteria.StationCriteria;
 import com.github.postal915.germes.app.model.search.criteria.range.RangeCriteria;
 import com.github.postal915.germes.app.persistence.repository.CityRepository;
+import com.github.postal915.germes.app.persistence.repository.StationRepository;
 import com.github.postal915.germes.app.persistence.repository.inmemory.InMemoryCityRepository;
 import com.github.postal915.germes.app.service.GeographicService;
 
@@ -21,13 +22,18 @@ public class GeographicServiceImpl implements GeographicService {
 
     private final CityRepository cityRepository;
 
+    private final StationRepository stationRepository;
+
     @Inject
-    public GeographicServiceImpl(CityRepository cityRepository) {
+    public GeographicServiceImpl(CityRepository cityRepository,
+                                 StationRepository stationRepository) {
         this.cityRepository = cityRepository;
+        this.stationRepository = stationRepository;
     }
 
     @Override
     public List<City> findCities() {
+        System.out.println(cityRepository.findAll());
         return cityRepository.findAll();
     }
 
@@ -43,10 +49,6 @@ public class GeographicServiceImpl implements GeographicService {
 
     @Override
     public List<Station> searchStations(final StationCriteria criteria, final RangeCriteria rangeCriteria) {
-        Set<Station> stations = new HashSet<>();
-
-        cityRepository.findAll().forEach(city -> stations.addAll(city.getStations()));
-
-        return stations.stream().filter(station -> station.match(criteria)).collect(Collectors.toList());
+        return stationRepository.findAllByCriteria(criteria);
     }
 }

@@ -6,7 +6,7 @@
 
     <groupId>com.github.postal915</groupId>
     <artifactId>germes</artifactId>
-    <version>0.3.7</version>
+    <version>0.3.8</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -15,6 +15,8 @@
         <module>germes-persistence</module>
         <module>germes-service</module>
     </modules>
+
+
 
     <properties>
         <java.version>1.8</java.version>
@@ -25,6 +27,8 @@
         <powermock.version>1.6.4</powermock.version>
         <jmockit.version>1.21</jmockit.version>
         <hibernate.version>5.1.0.Final</hibernate.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
     <dependencies>
