@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 /**
  * Default implementation of the {@link GeographicService}
  */
-
 public class GeographicServiceImpl implements GeographicService {
 
     private final CityRepository cityRepository;
