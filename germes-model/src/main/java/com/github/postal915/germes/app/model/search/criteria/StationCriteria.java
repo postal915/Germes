@@ -2,6 +2,8 @@ package com.github.postal915.germes.app.model.search.criteria;
 
 import com.github.postal915.germes.app.model.entity.transport.TransportType;
 
+import java.util.Objects;
+
 /**
  * Filtering criteria for search stations operation
  */
@@ -34,11 +36,11 @@ public class StationCriteria {
     }
 
     private StationCriteria(final String name) {
-        this.name = name;
+        this.name = Objects.requireNonNull(name);
     }
 
-    public StationCriteria(TransportType transportType) {
-        this.transportType = transportType;
+    public StationCriteria(final TransportType transportType) {
+        this.transportType = Objects.requireNonNull(transportType);
     }
 
     public String getName() {
