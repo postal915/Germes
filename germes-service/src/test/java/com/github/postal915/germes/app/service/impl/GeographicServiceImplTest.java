@@ -8,6 +8,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 import com.github.postal915.germes.app.model.entity.geography.City;
+import com.github.postal915.germes.app.infra.exception.flow.ValidationException;
 import com.github.postal915.germes.app.model.entity.geography.Station;
 import com.github.postal915.germes.app.model.entity.transport.TransportType;
 import com.github.postal915.germes.app.model.search.criteria.StationCriteria;
@@ -150,7 +151,7 @@ public class GeographicServiceImplTest {
     public void testSaveMultipleCitiesSuccess() {
         int cityCount = service.findCities().size();
 
-        int addedCount = 100_000;
+        int addedCount = 1_000;
         for (int i = 0; i < addedCount; i++) {
             City city = new City("Odessa" + i);
             city.setDistrict("Odessa");
@@ -167,8 +168,8 @@ public class GeographicServiceImplTest {
     public void testSaveMultipleCitiesConcurrentlySuccess() {
         int cityCount = service.findCities().size();
 
-        int threadCount = 200;
-        int batchCount = 10;
+        int threadCount = 20;
+        int batchCount = 5;
 
         List<Future<?>> futures = new ArrayList<>();
 
@@ -201,7 +202,7 @@ public class GeographicServiceImplTest {
 
         int cityCount = service.findCities().size();
 
-        int threadCount = 200;
+        int threadCount = 20;
 
         List<Future<?>> futures = new ArrayList<>();
 
@@ -234,5 +235,47 @@ public class GeographicServiceImplTest {
         city.setRegion("Odessa");
 
         return city;
+    }
+
+    @Test
+    public void testSaveCityMissingNameValidationExceptionThrown() {
+        try {
+            City city = new City();
+            city.setDistrict("Nikolaev");
+            city.setRegion("Nikolaev");
+            service.saveCity(city);
+
+            fail("City name validation failed");
+        } catch (ValidationException ex) {
+            assertTrue(ex.getMessage().contains("name:may not be null"));
+        }
+    }
+
+    @Test
+    public void testSaveCityNameTooShortValidationExceptionThrown() {
+        try {
+            City city = new City("N");
+            city.setDistrict("Nikolaev");
+            city.setRegion("Nikolaev");
+            service.saveCity(city);
+
+            fail("City name validation failed");
+        } catch (ValidationException ex) {
+            assertTrue(ex.getMessage().contains("name:size must be between 2 and 32"));
+        }
+    }
+
+    @Test
+    public void testSaveCityNameTooLongValidationExceptionThrown() {
+        try {
+            City city = new City("N1234567890123456789012345678901234567890");
+            city.setDistrict("Nikolaev");
+            city.setRegion("Nikolaev");
+            service.saveCity(city);
+
+            fail("City name validation failed");
+        } catch (ValidationException ex) {
+            assertTrue(ex.getMessage().contains("name:size must be between 2 and 32"));
+        }
     }
 }
