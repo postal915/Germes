@@ -6,7 +6,7 @@
 
     <groupId>com.github.postal915</groupId>
     <artifactId>germes</artifactId>
-    <version>0.4.2</version>
+    <version>0.4.3</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -27,8 +27,9 @@
         <powermock.version>1.6.4</powermock.version>
         <jmockit.version>1.21</jmockit.version>
         <hibernate.version>5.1.0.Final</hibernate.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <!--<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>-->
+        <!--<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>-->
+        <el.version>2.2.4</el.version>
     </properties>
 
     <dependencies>
