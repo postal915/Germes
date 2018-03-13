@@ -1,14 +1,7 @@
 package com.github.postal915.germes.app.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-
-import com.github.postal915.germes.app.model.entity.geography.City;
 import com.github.postal915.germes.app.infra.exception.flow.ValidationException;
+import com.github.postal915.germes.app.model.entity.geography.City;
 import com.github.postal915.germes.app.model.entity.geography.Station;
 import com.github.postal915.germes.app.model.entity.transport.TransportType;
 import com.github.postal915.germes.app.model.search.criteria.StationCriteria;
@@ -19,14 +12,19 @@ import com.github.postal915.germes.app.persistence.repository.StationRepository;
 import com.github.postal915.germes.app.persistence.repository.hibernate.HibernateCityRepository;
 import com.github.postal915.germes.app.persistence.repository.hibernate.HibernateStationRepository;
 import com.github.postal915.germes.app.service.GeographicService;
-import com.github.postal915.germes.app.service.impl.GeographicServiceImpl;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Test;
 import org.junit.Ignore;
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Contain unit-test for {@link GeographicServiceImpl}
@@ -91,12 +89,14 @@ public class GeographicServiceImplTest {
 
     @Test
     public void testSearchStationsByNameSuccess() {
-        City city = createCity();
+        City city = new City("Zhytomyr");
+        city.setDistrict("Zhytomyr");
+        city.setRegion("Zhytomyr");
         city.addStation(TransportType.AUTO);
         city.addStation(TransportType.RAILWAY);
         service.saveCity(city);
 
-        List<Station> stations = service.searchStations(StationCriteria.byName("Odessa"), new RangeCriteria(1, 5));
+        List<Station> stations = service.searchStations(StationCriteria.byName("Zhytomyr"), new RangeCriteria(1, 5));
         assertNotNull(stations);
         assertEquals(stations.size(), 2);
         assertEquals(stations.get(0).getCity(), city);
