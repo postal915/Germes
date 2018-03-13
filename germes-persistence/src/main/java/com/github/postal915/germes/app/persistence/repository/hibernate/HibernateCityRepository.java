@@ -3,6 +3,7 @@ package com.github.postal915.germes.app.persistence.repository.hibernate;
 import com.github.postal915.germes.app.model.entity.geography.City;
 import com.github.postal915.germes.app.persistence.hibernate.SessionFactoryBuilder;
 import com.github.postal915.germes.app.persistence.repository.CityRepository;
+import com.github.postal915.germes.app.model.entity.geography.Station;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -72,10 +73,10 @@ public class HibernateCityRepository implements CityRepository {
             Transaction tx = null;
             try {
                 tx = session.beginTransaction();
-                Query stationQuery = session.createQuery("delete from Station");
+                Query stationQuery = session.getNamedQuery(Station.QUERY_DELETE_ALL);
                 stationQuery.executeUpdate();
 
-                Query query = session.createQuery("delete from City");
+                Query query = session.getNamedQuery(City.QUERY_DELETE_ALL);
                 int deleted = query.executeUpdate();
                 LOGGER.debug("Deleted {} cities", deleted);
 
