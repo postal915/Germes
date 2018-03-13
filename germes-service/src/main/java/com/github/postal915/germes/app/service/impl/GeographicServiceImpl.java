@@ -64,4 +64,9 @@ public class GeographicServiceImpl implements GeographicService {
                                         final RangeCriteria rangeCriteria) {
         return stationRepository.findAllByCriteria(criteria);
     }
+
+    @Override
+    public void deleteCities() {
+        cityRepository.deleteAll();
+    }
 }

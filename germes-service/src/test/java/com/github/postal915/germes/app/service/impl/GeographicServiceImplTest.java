@@ -51,6 +51,8 @@ public class GeographicServiceImplTest {
     @AfterClass
     public static void tearDown() {
         executorService.shutdownNow();
+
+        service.deleteCities();
     }
 
     @Test
@@ -83,8 +85,8 @@ public class GeographicServiceImplTest {
 
     @Test
     public void testFindCityByIdNotFound() {
-        Optional<City> foundCity = service.findCityById(DEFAULT_CITY_ID);
-        assertFalse(!foundCity.isPresent());
+        Optional<City> foundCity = service.findCityById(1_000_000);
+        assertTrue(!foundCity.isPresent());
     }
 
     @Test

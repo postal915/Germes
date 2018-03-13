@@ -34,7 +34,7 @@ public class InMemoryCityRepository implements CityRepository {
             city.setId(++counter);
             cities.add(city);
         }
-        city.getStations().forEach(station -> {
+        city.getStations().forEach((station) -> {
             if (station.getId() == 0) {
                 station.setId(++stationCounter);
             }
@@ -54,5 +54,10 @@ public class InMemoryCityRepository implements CityRepository {
     @Override
     public List<City> findAll() {
         return CommonUtil.getSafeList(cities);
+    }
+
+    @Override
+    public void deleteAll() {
+        cities.clear();
     }
 }
