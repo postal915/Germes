@@ -1,0 +1,21 @@
+{
+  "name": "germes-js",
+  "homepage": "",
+  "authors": [
+    "Stas Latyshev <postal915@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "keywords": [
+    ""
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
