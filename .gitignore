@@ -25,3 +25,4 @@
 /germes-persistence/out/
 /germes-persistence/build/
 bower_components/
+*.log
