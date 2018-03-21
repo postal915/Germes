@@ -26,4 +26,4 @@
 /germes-persistence/build/
 germes-presentation/src/main/webapp/bower_components/
 *.log
-/germes-presentation/node_modules/
+/germes-presentation/src/main/webapp/node_modules/
