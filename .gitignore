@@ -24,6 +24,6 @@
 /germes-service/out/
 /germes-persistence/out/
 /germes-persistence/build/
-bower_components/
+germes-presentation/src/main/webapp/bower_components/
 *.log
 /germes-presentation/src/main/webapp/node_modules/
