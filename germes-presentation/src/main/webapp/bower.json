@@ -1,6 +1,6 @@
 {
   "name": "germes-js",
-  "homepage": "",
+  "homepage": "https://github.com/postal915",
   "authors": [
     "Stas Latyshev <postal915@gmail.com>"
   ],
@@ -17,5 +17,8 @@
     "bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "dependencies": {
+    "angular": "1.5.8"
+  }
 }
