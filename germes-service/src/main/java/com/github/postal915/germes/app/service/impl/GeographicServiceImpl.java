@@ -10,6 +10,7 @@ import com.github.postal915.germes.app.persistence.repository.StationRepository;
 import com.github.postal915.germes.app.service.GeographicService;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -21,6 +22,7 @@ import java.util.Set;
 /**
  * Default implementation of the {@link GeographicService}
  */
+@Named
 public class GeographicServiceImpl implements GeographicService {
 
     private final CityRepository cityRepository;

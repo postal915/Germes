@@ -1,15 +1,14 @@
 package org.germes.presentation.admin.bean;
 
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 
 /**
  * Managed bean that keeps all the cities for the main page
  */
-@ManagedBean
+@Named
 @RequestScoped
 public class CitiesBean {
 
