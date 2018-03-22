@@ -43,4 +43,15 @@ public interface GeographicService {
      * @param city
      */
     void saveCity(City city);
+
+    /**
+     * Removes all the cities
+     */
+    void deleteCities();
+
+    /**
+     * Saves all specified city instances
+     * @param cities
+     */
+    void saveCities(List<City> cities);
 }

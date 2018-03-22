@@ -14,7 +14,14 @@ import java.util.Objects;
  */
 @Table(name = "STATION")
 @Entity
+@NamedQuery(name = Station.QUERY_DELETE_ALL, query = "delete from Station")
 public class Station extends AbstractEntity {
+
+    public static final String FIELD_TRANSPORT_TYPE = "transportType";
+
+    public static final String FIELD_CITY = "city";
+
+    public static final String QUERY_DELETE_ALL = "deleteStations";
 
     private City city;
 
@@ -28,6 +35,9 @@ public class Station extends AbstractEntity {
     private Coordinate coordinate;
 
     private TransportType transportType;
+
+    public Station() {
+    }
 
     /**
      * You shouldn't create station object directly.
@@ -45,6 +55,10 @@ public class Station extends AbstractEntity {
     @JoinColumn(name = "CITY_ID")
     public City getCity() {
         return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
     }
 
     @Embedded
@@ -70,14 +84,6 @@ public class Station extends AbstractEntity {
         return coordinate;
     }
 
-    public void setCity(City city) {
-        this.city = city;
-    }
-
-    public void setTransportType(TransportType transportType) {
-        this.transportType = transportType;
-    }
-
     public void setCoordinate(Coordinate coordinate) {
         this.coordinate = coordinate;
     }
@@ -86,6 +92,10 @@ public class Station extends AbstractEntity {
     @Column(nullable = false, name = "TRANSPORT_TYPE")
     public TransportType getTransportType() {
         return transportType;
+    }
+
+    public void setTransportType(TransportType transportType) {
+        this.transportType = transportType;
     }
 
     /**

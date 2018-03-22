@@ -2,14 +2,10 @@
 /.idea/
 /.gradle/
 /target/
-/*.iml
-/germes-model/germes-model.iml
+*.iml
 /germes-model/target/
-/germes-presentation/germes-presentation.iml
 /germes-presentation/target/
-/germes-persistence/germes-persistence.iml
 /germes-persistence/target/
-/germes-service/germes-service.iml
 /germes-service/target/
 /germes-service/service.log
 /gradle/wrapper/gradle-wrapper.properties
@@ -24,3 +20,7 @@
 /germes-service/out/
 /germes-persistence/out/
 /germes-persistence/build/
+germes-presentation/src/main/webapp/bower_components/
+*.log
+/germes-presentation/src/main/webapp/node_modules/
+/germes-admin/build/

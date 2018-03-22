@@ -1,29 +1,42 @@
 package com.github.postal915.germes.app.service.impl;
 
-import com.github.postal915.germes.app.infra.util.CommonUtil;
+import com.github.postal915.germes.app.infra.exception.flow.ValidationException;
 import com.github.postal915.germes.app.model.entity.geography.City;
 import com.github.postal915.germes.app.model.entity.geography.Station;
 import com.github.postal915.germes.app.model.search.criteria.StationCriteria;
 import com.github.postal915.germes.app.model.search.criteria.range.RangeCriteria;
 import com.github.postal915.germes.app.persistence.repository.CityRepository;
-import com.github.postal915.germes.app.persistence.repository.inmemory.InMemoryCityRepository;
+import com.github.postal915.germes.app.persistence.repository.StationRepository;
 import com.github.postal915.germes.app.service.GeographicService;
 
 import javax.inject.Inject;
-import java.util.*;
-import java.util.stream.Collectors;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * Default implementation of the {@link GeographicService}
  */
-
 public class GeographicServiceImpl implements GeographicService {
 
     private final CityRepository cityRepository;
 
+    private final StationRepository stationRepository;
+
+    private final Validator validator;
+
     @Inject
-    public GeographicServiceImpl(CityRepository cityRepository) {
+    public GeographicServiceImpl(CityRepository cityRepository,
+                                 StationRepository stationRepository) {
         this.cityRepository = cityRepository;
+        this.stationRepository = stationRepository;
+
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        validator = factory.getValidator();
     }
 
     @Override
@@ -33,6 +46,11 @@ public class GeographicServiceImpl implements GeographicService {
 
     @Override
     public void saveCity(City city) {
+        Set<ConstraintViolation<City>> constraintViolations = validator.validate(city);
+        if (!constraintViolations.isEmpty()) {
+            throw new ValidationException("City validation failure", constraintViolations);
+        }
+
         cityRepository.save(city);
     }
 
@@ -42,11 +60,18 @@ public class GeographicServiceImpl implements GeographicService {
     }
 
     @Override
-    public List<Station> searchStations(final StationCriteria criteria, final RangeCriteria rangeCriteria) {
-        Set<Station> stations = new HashSet<>();
+    public List<Station> searchStations(final StationCriteria criteria,
+                                        final RangeCriteria rangeCriteria) {
+        return stationRepository.findAllByCriteria(criteria);
+    }
 
-        cityRepository.findAll().forEach(city -> stations.addAll(city.getStations()));
+    @Override
+    public void deleteCities() {
+        cityRepository.deleteAll();
+    }
 
-        return stations.stream().filter(station -> station.match(criteria)).collect(Collectors.toList());
+    @Override
+    public void saveCities(List<City> cities) {
+        cityRepository.saveAll(cities);
     }
 }

@@ -6,6 +6,7 @@ import com.github.postal915.germes.app.rest.dto.CityDTO;
 import com.github.postal915.germes.app.rest.service.base.BaseResource;
 import com.github.postal915.germes.app.service.GeographicService;
 import com.github.postal915.germes.app.service.transform.Transformer;
+import io.swagger.annotations.*;
 import org.apache.commons.lang3.math.NumberUtils;
 
 import javax.inject.Inject;
@@ -16,11 +17,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-
 /**
  * {@link CityResource} is REST web-service that handles city-related requests
  */
 @Path("cities")
+@Api("cities")
 public class CityResource extends BaseResource {
 
     /**
@@ -37,6 +38,7 @@ public class CityResource extends BaseResource {
     public CityResource(GeographicService service, Transformer transformer) {
         this.transformer = transformer;
         this.service = service;
+
         City city = new City("Odessa");
         city.addStation(TransportType.AUTO);
         city.setDistrict("Odessa");
@@ -51,6 +53,7 @@ public class CityResource extends BaseResource {
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value = "Returns all the existing cities")
     public List<CityDTO> findCities() {
         return service.findCities().stream().map(city -> transformer.transform(city, CityDTO.class))
                 .collect(Collectors.toList());
@@ -76,7 +79,11 @@ public class CityResource extends BaseResource {
     @Path("/{cityId}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response findCityById(@PathParam("cityId") final String cityId) {
+    @ApiOperation(value = "Returns existing city by its identifier")
+    @ApiResponses(value = {@ApiResponse(code = 400, message = "Invalid city identifier"),
+            @ApiResponse(code = 404, message = "Identifier of the non-existing city")})
+    public Response findCityById(@ApiParam("Unique numeric city identifier")
+                                 @PathParam("cityId") final String cityId) {
         if (!NumberUtils.isNumber(cityId)) {
             return BAD_REQUEST;
         }

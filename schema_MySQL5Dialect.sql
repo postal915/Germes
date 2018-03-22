@@ -11,7 +11,6 @@ drop table if exists STATION;
 create table ACCOUNT (ID integer not null auto_increment, CREATED_AT datetime not null, MODIFIED_AT datetime, CREATED_BY integer, MODIFIED_BY integer, primary key (ID));
 create table CITY (ID integer not null auto_increment, CREATED_AT datetime not null, MODIFIED_AT datetime, DISTRICT varchar(32) not null, NAME varchar(32) not null, REGION varchar(32) not null, CREATED_BY integer, MODIFIED_BY integer, primary key (ID));
 create table STATION (ID integer not null auto_increment, CREATED_AT datetime not null, MODIFIED_AT datetime, APARTMENT varchar(16), HOUSE_NO varchar(16), STREET varchar(32), ZIP_CODE varchar(10), X double precision, Y double precision, PHONE varchar(16), CREATED_BY integer, MODIFIED_BY integer, CITY_ID integer, primary key (ID));
-alter table CITY add constraint UK_snrb33qmm1r4ymfkgkusuplx4 unique (REGION);
 alter table ACCOUNT add constraint FK9rxadd7hdlmarov6qbvaot0po foreign key (CREATED_BY) references ACCOUNT (ID);
 alter table ACCOUNT add constraint FK4cfkq2sywnlcu6fxm9xbrmsjs foreign key (MODIFIED_BY) references ACCOUNT (ID);
 alter table CITY add constraint FKg20pyto8we1mjpxdf0ixmfkgd foreign key (CREATED_BY) references ACCOUNT (ID);

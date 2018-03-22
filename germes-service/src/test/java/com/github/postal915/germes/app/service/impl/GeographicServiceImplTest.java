@@ -1,17 +1,28 @@
 package com.github.postal915.germes.app.service.impl;
 
+import com.github.postal915.germes.app.infra.exception.flow.ValidationException;
 import com.github.postal915.germes.app.model.entity.geography.City;
 import com.github.postal915.germes.app.model.entity.geography.Station;
 import com.github.postal915.germes.app.model.entity.transport.TransportType;
 import com.github.postal915.germes.app.model.search.criteria.StationCriteria;
 import com.github.postal915.germes.app.model.search.criteria.range.RangeCriteria;
-import com.github.postal915.germes.app.persistence.repository.inmemory.InMemoryCityRepository;
+import com.github.postal915.germes.app.persistence.hibernate.SessionFactoryBuilder;
+import com.github.postal915.germes.app.persistence.repository.CityRepository;
+import com.github.postal915.germes.app.persistence.repository.StationRepository;
+import com.github.postal915.germes.app.persistence.repository.hibernate.HibernateCityRepository;
+import com.github.postal915.germes.app.persistence.repository.hibernate.HibernateStationRepository;
 import com.github.postal915.germes.app.service.GeographicService;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import static org.junit.Assert.*;
 
@@ -23,34 +34,49 @@ public class GeographicServiceImplTest {
 
     private static final int DEFAULT_CITY_ID = 1;
 
-    private GeographicService service;
+    private static GeographicService service;
 
-    @Before
-    public void setup() {
-        service = new GeographicServiceImpl(new InMemoryCityRepository());
+    private static ExecutorService executorService;
+
+    @BeforeClass
+    public static void setup() {
+        SessionFactoryBuilder builder = new SessionFactoryBuilder();
+        CityRepository repository = new HibernateCityRepository(builder);
+        StationRepository stationRepository = new HibernateStationRepository(builder);
+        service = new GeographicServiceImpl(repository, stationRepository);
+
+        executorService = Executors.newCachedThreadPool();
+    }
+
+    @AfterClass
+    public static void tearDown() {
+        executorService.shutdownNow();
+
+        service.deleteCities();
     }
 
     @Test
     public void testNoDataReturnedAtStart() {
         List<City> cities = service.findCities();
-
-        assertTrue(cities.isEmpty());
+        assertTrue(!cities.isEmpty());
     }
 
     @Test
     public void testSaveNewCitySuccess() {
-        City city = new City("Odessa");
+        int cityCount = service.findCities().size();
+
+        City city = createCity();
         service.saveCity(city);
 
         List<City> cities = service.findCities();
-
-        assertEquals(cities.size(), 1);
+        assertEquals(cities.size(), cityCount + 1);
         assertEquals(cities.get(0).getName(), "Odessa");
     }
 
     @Test
+    @Ignore
     public void testFindCityByIdSuccess() {
-        City city = new City("Odessa");
+        City city = createCity();
         service.saveCity(city);
 
         Optional<City> foundCity = service.findCityById(DEFAULT_CITY_ID);
@@ -60,21 +86,20 @@ public class GeographicServiceImplTest {
 
     @Test
     public void testFindCityByIdNotFound() {
-        Optional<City> foundCity = service.findCityById(DEFAULT_CITY_ID);
-        assertFalse(foundCity.isPresent());
+        Optional<City> foundCity = service.findCityById(1_000_000);
+        assertTrue(!foundCity.isPresent());
     }
 
     @Test
     public void testSearchStationsByNameSuccess() {
-        City city = new City("Odessa");
-        city.setId(DEFAULT_CITY_ID);
+        City city = new City("Zhytomyr");
+        city.setDistrict("Zhytomyr");
+        city.setRegion("Zhytomyr");
         city.addStation(TransportType.AUTO);
         city.addStation(TransportType.RAILWAY);
         service.saveCity(city);
 
-        List<Station> stations = service.searchStations(StationCriteria.byName("Odessa"),
-                new RangeCriteria(1, 5));
-
+        List<Station> stations = service.searchStations(StationCriteria.byName("Zhytomyr"), new RangeCriteria(1, 5));
         assertNotNull(stations);
         assertEquals(stations.size(), 2);
         assertEquals(stations.get(0).getCity(), city);
@@ -82,46 +107,198 @@ public class GeographicServiceImplTest {
 
     @Test
     public void testSearchStationsByNameNotFound() {
-        List<Station> stations = service.searchStations(StationCriteria.byName("Odessa"),
-                new RangeCriteria(1, 5));
-
+        List<Station> stations = service.searchStations(StationCriteria.byName("London"), new RangeCriteria(1, 5));
         assertNotNull(stations);
         assertTrue(stations.isEmpty());
     }
 
     @Test
     public void testSearchStationsByTransportTypeSuccess() {
-        City city = new City("Odessa");
+        int stationCount = service.searchStations(new StationCriteria(TransportType.AUTO), new RangeCriteria(1, 5))
+                .size();
+
+        City city = createCity();
         city.addStation(TransportType.AUTO);
         service.saveCity(city);
-
         City city2 = new City("Kiev");
-        city2.setId(2);
+        city2.setDistrict("Kiev");
+        city2.setRegion("Kiev");
         city2.addStation(TransportType.AUTO);
         service.saveCity(city2);
 
         List<Station> stations = service.searchStations(new StationCriteria(TransportType.AUTO),
                 new RangeCriteria(1, 5));
-
         assertNotNull(stations);
-        assertEquals(stations.size(), 2);
+        assertEquals(stations.size(), stationCount + 2);
     }
 
     @Test
     public void testSearchStationsByTransportTypeNotFound() {
-        City city = new City("Odessa");
+        City city = createCity();
         city.addStation(TransportType.AUTO);
         service.saveCity(city);
-
         City city2 = new City("Kiev");
+        city2.setDistrict("Kiev");
+        city2.setRegion("Kiev");
         city2.setId(2);
         city2.addStation(TransportType.RAILWAY);
         service.saveCity(city2);
 
         List<Station> stations = service.searchStations(new StationCriteria(TransportType.AVIA),
                 new RangeCriteria(1, 5));
-
         assertNotNull(stations);
         assertTrue(stations.isEmpty());
+    }
+
+    @Test
+    public void testSaveMultipleCitiesSuccess() {
+        int cityCount = service.findCities().size();
+
+        int addedCount = 1_000;
+        for (int i = 0; i < addedCount; i++) {
+            City city = new City("Odessa" + i);
+            city.setDistrict("Odessa");
+            city.setRegion("Odessa");
+            city.addStation(TransportType.AUTO);
+            service.saveCity(city);
+        }
+
+        List<City> cities = service.findCities();
+        assertEquals(cities.size(), cityCount + addedCount);
+    }
+
+    @Test
+    public void testSaveMultipleCitiesInBatchSuccess() {
+        int cityCount = service.findCities().size();
+        int addedCount = 5_000;
+
+        List<City> cities = new ArrayList<>(addedCount);
+
+        for (int i = 0; i < addedCount; i++) {
+            City city = new City("Odessa" + i);
+            city.setDistrict("Odessa");
+            city.setRegion("Odessa");
+            city.addStation(TransportType.AUTO);
+            cities.add(city);
+        }
+        service.saveCities(cities);
+
+        List<City> allCities = service.findCities();
+        assertEquals(allCities.size(), cityCount + addedCount);
+    }
+
+    @Test
+    public void testSaveMultipleCitiesConcurrentlySuccess() {
+        int cityCount = service.findCities().size();
+
+        int threadCount = 20;
+        int batchCount = 5;
+
+        List<Future<?>> futures = new ArrayList<>();
+
+        for (int i = 0; i < threadCount; i++) {
+            futures.add(executorService.submit(() -> {
+                for (int j = 0; j < batchCount; j++) {
+                    City city = new City("Lviv_" + Math.random());
+                    city.setDistrict("Lviv");
+                    city.setRegion("Lviv");
+                    city.addStation(TransportType.AUTO);
+                    service.saveCity(city);
+                }
+            }));
+        }
+
+        waitForFutures(futures);
+
+        List<City> cities = service.findCities();
+        assertEquals(cities.size(), cityCount + threadCount * batchCount);
+    }
+
+    @Test
+    @Ignore
+    public void testSaveOneCityConcurrentlySuccess() {
+        City city = new City("Nikolaev");
+        city.setDistrict("Nikolaev");
+        city.setRegion("Nikolaev");
+        city.addStation(TransportType.AUTO);
+        service.saveCity(city);
+
+        int cityCount = service.findCities().size();
+
+        int threadCount = 20;
+
+        List<Future<?>> futures = new ArrayList<>();
+
+        for (int i = 0; i < threadCount; i++) {
+            futures.add(executorService.submit(() -> {
+                city.setName("Nikolaev" + Math.random());
+                service.saveCity(city);
+            }));
+        }
+
+        waitForFutures(futures);
+
+        List<City> cities = service.findCities();
+        assertEquals(cities.size(), cityCount);
+    }
+
+    private void waitForFutures(List<Future<?>> futures) {
+        futures.forEach(future -> {
+            try {
+                future.get();
+            } catch (Exception e) {
+                fail(e.getMessage());
+            }
+        });
+    }
+
+    private City createCity() {
+        City city = new City("Odessa");
+        city.setDistrict("Odessa");
+        city.setRegion("Odessa");
+
+        return city;
+    }
+
+    @Test
+    public void testSaveCityMissingNameValidationExceptionThrown() {
+        try {
+            City city = new City();
+            city.setDistrict("Nikolaev");
+            city.setRegion("Nikolaev");
+            service.saveCity(city);
+
+            fail("City name validation failed");
+        } catch (ValidationException ex) {
+            assertTrue(ex.getMessage().contains("name:may not be null"));
+        }
+    }
+
+    @Test
+    public void testSaveCityNameTooShortValidationExceptionThrown() {
+        try {
+            City city = new City("N");
+            city.setDistrict("Nikolaev");
+            city.setRegion("Nikolaev");
+            service.saveCity(city);
+
+            fail("City name validation failed");
+        } catch (ValidationException ex) {
+            assertTrue(ex.getMessage().contains("name:size must be between 2 and 32"));
+        }
+    }
+
+    @Test
+    public void testSaveCityNameTooLongValidationExceptionThrown() {
+        try {
+            City city = new City("N1234567890123456789012345678901234567890");
+            city.setDistrict("Nikolaev");
+            city.setRegion("Nikolaev");
+            service.saveCity(city);
+
+            fail("City name validation failed");
+        } catch (ValidationException ex) {
+            assertTrue(ex.getMessage().contains("name:size must be between 2 and 32"));
+        }
     }
 }
