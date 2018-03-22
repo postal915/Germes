@@ -1,6 +1,9 @@
 package com.github.postal915.germes.app.rest.service.config;
 
 import com.github.postal915.germes.app.config.ComponentFeature;
+import io.swagger.annotations.Contact;
+import io.swagger.annotations.Info;
+import io.swagger.annotations.SwaggerDefinition;
 import io.swagger.jaxrs.config.BeanConfig;
 import io.swagger.jaxrs.listing.ApiListingResource;
 import io.swagger.jaxrs.listing.SwaggerSerializers;
@@ -12,6 +15,10 @@ import javax.ws.rs.ApplicationPath;
  * REST web-service configuration for Jersey
  */
 @ApplicationPath("api")
+@SwaggerDefinition(info = @Info(description = "Booking and purchasing API definition",
+        title = "Germes project", version = "0.7.4",
+        contact = @Contact(email = "postal915@gmail.com", name = "Stas Latyshev",
+                url = "https://github.com/postal915")))
 public class JerseyConfig extends ResourceConfig {
 
     public JerseyConfig() {
