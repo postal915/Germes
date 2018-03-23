@@ -1,13 +1,12 @@
 package org.germes.presentation.admin.bean;
 
-import java.util.List;
+import com.github.postal915.germes.app.model.entity.geography.City;
+import com.github.postal915.germes.app.service.GeographicService;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import com.github.postal915.germes.app.model.entity.geography.City;
-import com.github.postal915.germes.app.service.GeographicService;
+import java.util.List;
 
 /**
  * Managed bean that keeps all the cities for the main page
@@ -32,6 +31,11 @@ public class CityController {
         city.setName(cityBean.getName());
         city.setRegion(cityBean.getRegion());
         city.setDistrict(cityBean.getDistrict());
+        city.setId(cityBean.getId());
         geographicService.saveCity(city);
+    }
+
+    public void delete(int cityId) {
+        geographicService.deleteCity(cityId);
     }
 }
