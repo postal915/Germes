@@ -4,7 +4,7 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
 <h:head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Germes application</title>
 </h:head>
 <h:body>
@@ -12,7 +12,7 @@
         <h:outputText value="Germes application"></h:outputText>
     </div>
 
-    <ui:include src="/WEB-INF/components/city.xhtml"/>
+    <ui:include src="/WEB-INF/components/city.xhtml" />
 
     <div style="text-align: center">
         <p:panel header="Cities"
@@ -31,15 +31,15 @@
                 <p:column>
                     <p:commandButton value="Edit" oncomplete="PF('cityDlg').show();"
                                      update=":cityForm:cityDialog"
-                                     actionListener="#{currentCity.update(city)}"/>
+                                     actionListener="#{cityController.update(city, currentCity)}" />
                     <p:commandButton value="Remove" update="citiesTable"
-                                     actionListener="#{cityController.delete(city.id)}"/>
+                                     actionListener="#{cityController.delete(city.id)}" />
                 </p:column>
                 <f:facet name="footer">
                     <div style="margin-top: 20px; text-align: right">
                         <p:commandButton value="Add city"
                                          actionListener="#{currentCity.clear()}"
-                                         oncomplete="PF('cityDlg').show();" update=":cityForm:cityDialog"/>
+                                         oncomplete="PF('cityDlg').show();" update=":cityForm:cityDialog" />
                     </div>
                 </f:facet>
             </p:dataTable>

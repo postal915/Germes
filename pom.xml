@@ -6,7 +6,7 @@
 
     <groupId>com.github.postal915</groupId>
     <artifactId>germes</artifactId>
-    <version>0.8.3</version>
+    <version>0.8.4</version>
     <packaging>pom</packaging>
 
     <modules>

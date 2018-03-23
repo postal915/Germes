@@ -1,13 +1,14 @@
 package com.github.postal915.germes.app.rest.dto.base;
 
 import com.github.postal915.germes.app.model.entity.base.AbstractEntity;
+import com.github.postal915.germes.app.model.transform.Transformable;
 
 /**
  * Base class for all DTO classes
  *
  * @param <T>
  */
-public abstract class BaseDTO<T extends AbstractEntity> {
+public abstract class BaseDTO<T extends AbstractEntity> implements Transformable<T>{
 
     /**
      * Unique entity identifier

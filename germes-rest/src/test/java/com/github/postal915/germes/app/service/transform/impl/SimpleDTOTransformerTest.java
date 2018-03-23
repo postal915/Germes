@@ -43,9 +43,9 @@ public class SimpleDTOTransformerTest {
         transformer.transform(null, CityDTO.class);
     }
 
-    @Test(expected = InvalidParameterException.class)
+    @Test(expected=InvalidParameterException.class)
     public void testTransformNullDTOClassFailure() {
-        transformer.transform(new City("Odessa"), null);
+        transformer.transform(new City("Odessa"), (Class<CityDTO>)null);
     }
 
     @Test
