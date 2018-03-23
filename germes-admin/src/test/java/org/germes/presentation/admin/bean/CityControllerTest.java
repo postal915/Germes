@@ -12,8 +12,7 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 /**
  * Verifies functionality of CityController
@@ -36,6 +35,7 @@ public class CityControllerTest {
     @Test
     public void saveCity_cityInitialized_citySuccessfullySaved() {
         CityBean cityBean = new CityBean();
+        when(transformer.unTransform(cityBean, City.class)).thenReturn(new City());
         cityController.saveCity(cityBean);
         verify(geographicService, atLeastOnce()).saveCity(any(City.class));
     }
