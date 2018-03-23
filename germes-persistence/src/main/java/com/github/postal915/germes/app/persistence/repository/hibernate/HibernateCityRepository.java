@@ -1,9 +1,9 @@
 package com.github.postal915.germes.app.persistence.repository.hibernate;
 
 import com.github.postal915.germes.app.model.entity.geography.City;
+import com.github.postal915.germes.app.model.entity.geography.Station;
 import com.github.postal915.germes.app.persistence.hibernate.SessionFactoryBuilder;
 import com.github.postal915.germes.app.persistence.repository.CityRepository;
-import com.github.postal915.germes.app.model.entity.geography.Station;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -12,11 +12,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import java.util.List;
 
 /**
  * Hibernate implementation of {@link CityRepository}
  */
+@Named
 public class HibernateCityRepository implements CityRepository {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HibernateCityRepository.class);

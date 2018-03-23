@@ -17,7 +17,6 @@ import java.util.List;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
-
 /**
  * Verifies functionality of the {@link CachedFieldProvider} unit
  */
@@ -88,15 +87,6 @@ public class CachedFieldProviderTest {
         assertEquals(fields, fields2);
     }
 
-    public static final class MockReflectionUtil extends MockUp<ReflectionUtil> {
-        protected static List<String> fields;
-
-        @Mock
-        public static List<String> findSimilarFields(Class<?> clz1, Class<?> clz2) {
-            return fields;
-        }
-    }
-
     @Test
     public void testGetFieldNamesAreCachedUsingMockupsAPI() {
         new MockReflectionUtil();
@@ -111,6 +101,15 @@ public class CachedFieldProviderTest {
         List<String> fields2 = provider.getFieldNames(Source.class, Destination.class);
         assertFalse(fields.isEmpty());
         assertEquals(fields, fields2);
+    }
+
+    public static final class MockReflectionUtil extends MockUp<ReflectionUtil> {
+        protected static List<String> fields;
+
+        @Mock
+        public static List<String> findSimilarFields(Class<?> clz1, Class<?> clz2) {
+            return fields;
+        }
     }
 }
 

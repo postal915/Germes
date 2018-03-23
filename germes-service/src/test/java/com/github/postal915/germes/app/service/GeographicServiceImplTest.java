@@ -1,4 +1,4 @@
-package com.github.postal915.germes.app.service.impl;
+package com.github.postal915.germes.app.service;
 
 import com.github.postal915.germes.app.infra.exception.flow.ValidationException;
 import com.github.postal915.germes.app.model.entity.geography.City;
@@ -11,7 +11,7 @@ import com.github.postal915.germes.app.persistence.repository.CityRepository;
 import com.github.postal915.germes.app.persistence.repository.StationRepository;
 import com.github.postal915.germes.app.persistence.repository.hibernate.HibernateCityRepository;
 import com.github.postal915.germes.app.persistence.repository.hibernate.HibernateStationRepository;
-import com.github.postal915.germes.app.service.GeographicService;
+import com.github.postal915.germes.app.service.impl.GeographicServiceImpl;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Ignore;

@@ -1,8 +1,11 @@
 package org.germes.presentation.admin.bean;
 
+import com.github.postal915.germes.app.model.entity.geography.City;
+import com.github.postal915.germes.app.service.GeographicService;
+
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,15 +15,14 @@ import java.util.List;
 @RequestScoped
 public class CitiesBean {
 
-    private final List<CityBean> cities;
+    private final GeographicService geographicService;
 
-    public CitiesBean() {
-        cities = new ArrayList<>();
-        cities.add(new CityBean("Odessa", "", "Odessa"));
-        cities.add(new CityBean("Izmail", "", "Odessa"));
+    @Inject
+    public CitiesBean(GeographicService geographicService) {
+        this.geographicService = geographicService;
     }
 
-    public List<CityBean> getCities() {
-        return cities;
+    public List<City> getCities() {
+        return geographicService.findCities();
     }
 }

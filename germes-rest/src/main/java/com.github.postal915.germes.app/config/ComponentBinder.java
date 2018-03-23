@@ -1,8 +1,5 @@
 package com.github.postal915.germes.app.config;
 
-import javax.inject.Singleton;
-
-import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import com.github.postal915.germes.app.persistence.hibernate.SessionFactoryBuilder;
 import com.github.postal915.germes.app.persistence.repository.CityRepository;
 import com.github.postal915.germes.app.persistence.repository.StationRepository;
@@ -12,6 +9,7 @@ import com.github.postal915.germes.app.service.GeographicService;
 import com.github.postal915.germes.app.service.impl.GeographicServiceImpl;
 import com.github.postal915.germes.app.service.transform.Transformer;
 import com.github.postal915.germes.app.service.transform.impl.SimpleDTOTransformer;
+import org.glassfish.hk2.utilities.binding.AbstractBinder;
 
 import javax.inject.Singleton;
 

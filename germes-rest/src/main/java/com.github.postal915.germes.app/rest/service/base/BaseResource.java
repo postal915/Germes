@@ -20,6 +20,7 @@ public abstract class BaseResource {
 
     public BaseResource() {
         this.NOT_FOUND = Response.status(Response.Status.NOT_FOUND).build();
+
         this.BAD_REQUEST = Response.status(Response.Status.BAD_REQUEST).build();
     }
 
