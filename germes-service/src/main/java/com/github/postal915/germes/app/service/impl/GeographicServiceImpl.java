@@ -1,5 +1,6 @@
 package com.github.postal915.germes.app.service.impl;
 
+import com.github.postal915.germes.app.infra.cdi.DBSource;
 import com.github.postal915.germes.app.infra.exception.flow.ValidationException;
 import com.github.postal915.germes.app.model.entity.geography.City;
 import com.github.postal915.germes.app.model.entity.geography.Station;
@@ -32,8 +33,7 @@ public class GeographicServiceImpl implements GeographicService {
     private final Validator validator;
 
     @Inject
-    public GeographicServiceImpl(CityRepository cityRepository,
-                                 StationRepository stationRepository) {
+    public GeographicServiceImpl(@DBSource CityRepository cityRepository, @DBSource StationRepository stationRepository) {
         this.cityRepository = cityRepository;
         this.stationRepository = stationRepository;
 

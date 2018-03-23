@@ -1,5 +1,6 @@
 package com.github.postal915.germes.app.persistence.repository.hibernate;
 
+import com.github.postal915.germes.app.infra.cdi.DBSource;
 import com.github.postal915.germes.app.model.entity.geography.City;
 import com.github.postal915.germes.app.model.entity.geography.Station;
 import com.github.postal915.germes.app.model.search.criteria.StationCriteria;
@@ -16,6 +17,7 @@ import javax.inject.Named;
 import java.util.List;
 
 @Named
+@DBSource
 public class HibernateStationRepository implements StationRepository {
 
     private final SessionFactory sessionFactory;

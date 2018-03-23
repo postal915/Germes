@@ -1,5 +1,6 @@
 package com.github.postal915.germes.app.persistence.repository.hibernate;
 
+import com.github.postal915.germes.app.infra.cdi.DBSource;
 import com.github.postal915.germes.app.model.entity.geography.City;
 import com.github.postal915.germes.app.model.entity.geography.Station;
 import com.github.postal915.germes.app.persistence.hibernate.SessionFactoryBuilder;
@@ -19,6 +20,7 @@ import java.util.List;
  * Hibernate implementation of {@link CityRepository}
  */
 @Named
+@DBSource
 public class HibernateCityRepository implements CityRepository {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HibernateCityRepository.class);

@@ -10,6 +10,7 @@ import com.github.postal915.germes.app.service.impl.GeographicServiceImpl;
 import com.github.postal915.germes.app.service.transform.Transformer;
 import com.github.postal915.germes.app.service.transform.impl.SimpleDTOTransformer;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
+import com.github.postal915.germes.app.infra.cdi.DBSourceInstance;
 
 import javax.inject.Singleton;
 
@@ -20,8 +21,8 @@ public class ComponentBinder extends AbstractBinder {
 
     @Override
     protected void configure() {
-        bind(HibernateCityRepository.class).to(CityRepository.class).in(Singleton.class);
-        bind(HibernateStationRepository.class).to(StationRepository.class).in(Singleton.class);
+        bind(HibernateCityRepository.class).to(CityRepository.class).in(Singleton.class).qualifiedBy(new DBSourceInstance());
+        bind(HibernateStationRepository.class).to(StationRepository.class).in(Singleton.class).qualifiedBy(new DBSourceInstance());
         bind(SimpleDTOTransformer.class).to(Transformer.class).in(Singleton.class);
         bind(GeographicServiceImpl.class).to(GeographicService.class).in(Singleton.class);
         bind(SessionFactoryBuilder.class).to(SessionFactoryBuilder.class).in(Singleton.class);
