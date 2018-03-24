@@ -5,6 +5,8 @@ import com.github.postal915.germes.app.service.GeographicService;
 import com.github.postal915.germes.app.service.transform.Transformer;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.Initialized;
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.List;
@@ -21,10 +23,12 @@ public class CityController {
     private final Transformer transformer;
 
     @Inject
-    public CityController(GeographicService geographicService,
-                          Transformer transformer) {
+    public CityController(GeographicService geographicService, Transformer transformer) {
         this.geographicService = geographicService;
         this.transformer = transformer;
+    }
+
+    public void init(@Observes @Initialized(ApplicationScoped.class) Object event) {
     }
 
     public List<City> getCities() {
