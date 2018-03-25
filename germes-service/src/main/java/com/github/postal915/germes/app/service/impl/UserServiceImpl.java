@@ -1,15 +1,15 @@
 package com.github.postal915.germes.app.service.impl;
 
-import java.util.List;
-import java.util.Optional;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-
 import com.github.postal915.germes.app.infra.cdi.DBSource;
+import com.github.postal915.germes.app.infra.util.SecurityUtil;
 import com.github.postal915.germes.app.model.entity.person.User;
 import com.github.postal915.germes.app.persistence.repository.UserRepository;
 import com.github.postal915.germes.app.service.UserService;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Default and managed(by CDI container) implementation of UserService
@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
 
         User user = new User();
         user.setUserName("guest");
-        user.setPassword("guest");
+        user.setPassword(SecurityUtil.encryptSHA("guest"));
         userRepository.save(user);
     }
 
