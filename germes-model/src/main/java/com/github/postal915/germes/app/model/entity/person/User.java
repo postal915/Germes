@@ -4,6 +4,7 @@ import com.github.postal915.germes.app.model.entity.base.AbstractEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
@@ -11,7 +12,10 @@ import javax.persistence.Table;
  */
 @Table(name = "USER")
 @Entity
+@NamedQuery(name = User.QUERY_FIND_ALL, query = "from User")
 public class User extends AbstractEntity {
+
+    public static final String QUERY_FIND_ALL = "User.findAll";
 
     /**
      * Unique user name within the system

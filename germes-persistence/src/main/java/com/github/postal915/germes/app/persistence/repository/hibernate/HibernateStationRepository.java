@@ -8,28 +8,27 @@ import com.github.postal915.germes.app.persistence.hibernate.SessionFactoryBuild
 import com.github.postal915.germes.app.persistence.repository.StationRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.List;
 
+/**
+ * Hibernate implementation of StationRepository
+ */
 @Named
 @DBSource
-public class HibernateStationRepository implements StationRepository {
-
-    private final SessionFactory sessionFactory;
+public class HibernateStationRepository extends BaseHibernateRepository implements StationRepository {
 
     @Inject
     public HibernateStationRepository(SessionFactoryBuilder builder) {
-        sessionFactory = builder.getSessionFactory();
+        super(builder);
     }
 
     @Override
     public List<Station> findAllByCriteria(StationCriteria stationCriteria) {
-        try (Session session = sessionFactory.openSession()) {
+        return query(session -> {
             Criteria criteria = session.createCriteria(Station.class);
 
             if (stationCriteria.getTransportType() != null) {
@@ -42,6 +41,7 @@ public class HibernateStationRepository implements StationRepository {
             }
 
             return criteria.list();
-        }
+
+        });
     }
 }

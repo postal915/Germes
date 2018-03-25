@@ -24,3 +24,5 @@ germes-presentation/src/main/webapp/bower_components/
 *.log
 /germes-presentation/src/main/webapp/node_modules/
 /germes-admin/build/
+/gradlew
+/gradlew.bat
